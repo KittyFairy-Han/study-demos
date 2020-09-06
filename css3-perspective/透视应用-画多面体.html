@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>旋转木马</title>
+
+</head>
+<style>
+    .container {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        perspective: 800px;
+        position: fixed;
+        left: 50%;
+    }
+    .container1{
+        top: 10%;
+    }
+    .container2{
+        bottom: 10%;
+    }
+
+    .cube {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+    }
+
+    .cube figure {
+        margin: 0;
+        display: block;
+        position: absolute;
+        width: 196px;
+        height: 196px;
+        margin: 0 2px;
+        opacity: 0.7;
+        font-size: 30px;
+        color: white;
+        text-align: center;
+        line-height: 196px;
+    }
+
+    /* translateZ=0.5边长/tan(360/面的个数) */
+
+    .cube.eight>.front {
+        background: red;
+        transform: rotateY(0deg) translateZ(241.5px);
+    }
+
+    .cube.four>.front {
+        background: red;
+        transform: rotateY(0deg) translateZ(100px);
+    }
+
+    .cube.eight>.front-right {
+        background: orange;
+        transform: rotateY(45deg) translateZ(241.5px);
+    }
+
+    .cube.eight>.right {
+        background: yellow;
+        transform: rotateY(90deg) translateZ(241.5px);
+    }
+
+    .cube.four>.right {
+        background: yellow;
+        transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .cube.eight>.right-back {
+        background: green;
+        transform: rotateY(135deg) translateZ(241.5px);
+    }
+
+    .cube.eight>.back {
+        background: rgb(88, 210, 226);
+        transform: rotateX(180deg) translateZ(241.5px);
+    }
+
+    .cube.four>.back {
+        background: rgb(88, 210, 226);
+        transform: rotateX(180deg) translateZ(100px);
+    }
+
+    .cube.eight>.back-left {
+        background: lightblue;
+        transform: rotateY(-135deg) translateZ(241.5px);
+    }
+
+    .cube.eight>.left {
+        background: palevioletred;
+        transform: rotateY(-90deg) translateZ(241.5px);
+    }
+
+    .cube.four>.left {
+        background: palevioletred;
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .cube.eight>.left-front {
+        background: purple;
+        transform: rotateY(-45deg) translateZ(241.5px);
+    }
+    .cube.eight{
+        transform:  translateZ(-241.5px);
+    }
+    .cube.four{
+        transform: translateZ(-100px) rotateY(10deg);
+    }
+</style>
+
+
+<body>
+<section class="container container1">
+    <div class="cube eight">
+        <figure class="front">1</figure>
+        <figure class="front-right">2</figure>
+        <figure class="right">3</figure>
+        <figure class="right-back">4</figure>
+        <figure class="back">5</figure>
+        <figure class="back-left">6</figure>
+        <figure class="left">7</figure>
+        <figure class="left-front">8</figure>
+    </div>
+
+    
+</section>
+<section class="container container2">
+    <div class="cube four">
+        <figure class="front">1</figure>
+        <figure class="right">3</figure>
+        <figure class="back">5</figure>
+        <figure class="left">7</figure>
+    </div>
+</section>
+</body>
+</html>

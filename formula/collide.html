@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Collide</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.min.js"></script>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .app {
+        position: relative;
+      }
+
+      .ball {
+        width: 50px;
+        height: 50px;
+        border-radius:50%;
+        display: block;
+        background-color: #fc3;
+        transform: translate(-50%, -50%);
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="app">
+      <i class="ball" v-for="ball in balls" :style="{top: `${ball.y}px`, left: `${ball.x}px`}"></i>
+    </section>
+  </body>
+  <script>
+    new Vue({
+      el: ".app",
+      data: {
+        balls: [
+          {x: 100, y: 100, speed: 3, rotation: .743},
+          {x: 300, y: 260, speed: 0, rotation: 0}
+        ],
+        R:25
+      },
+      computed: {
+        distance() {
+          const [a, b] = this.balls
+          return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+        }
+      },
+      methods: {
+        collide() {
+            console.log('peng-zhuang')
+
+            let speed = this.balls[0].speed;
+            let d1 = Math.atan2((this.balls[1].y-this.balls[0].y),(this.balls[1].x-this.balls[0].x));//圆心连线与x轴夹角
+            let d2 = this.balls[0].rotation-d1;//速度与圆心连线夹角
+            let v1=speed*Math.sin(d2);
+            let v2=speed*Math.cos(d2);
+            let th1 = d1+Math.PI/2;
+            let th2 = d1;
+
+            Object.assign(this.balls[0],{speed:v1,rotation:th1});
+            Object.assign(this.balls[1],{speed:v2,rotation:th2});
+            console.log(this.balls);
+        },
+
+        update() {
+          const balls = this.balls
+          balls.forEach(ball => {
+            ball.x += Math.cos(ball.rotation) * ball.speed
+            ball.y += Math.sin(ball.rotation) * ball.speed
+          })
+          this.distance < 2*this.R && this.collide()
+          requestAnimationFrame(this.update)
+
+        }
+      },
+
+      mounted() {
+        this.update()
+      }
+    })
+  </script>
+</html>
