@@ -1,0 +1,14 @@
+//路径代理能够让vscode识别
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["src/*"],
+        "@bussiness/*": ["src/components/bussiness/*"],
+        "@common/*": ["src/common/*"],
+        "@less/*": ["src/assets/bussiness/*"],
+      }
+    },
+    "exclude": ["node_modules", "dist", "plugins"],
+    "include": ["src/**/*"]
+  }

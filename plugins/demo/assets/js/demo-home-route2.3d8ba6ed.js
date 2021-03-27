@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["demo-home-route2"],{"56d6":function(e,t,n){},"860a":function(e,t,n){"use strict";n("56d6")},"9dc2":function(e,t,n){"use strict";n.r(t);var o=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("main",{staticClass:"demo-home-test"},[e._v("当前位置：demo插件home页面Route2路由")])},c=[],s={},u=s,a=(n("860a"),n("c701")),i=Object(a["a"])(u,o,c,!1,null,null,null);t["default"]=i.exports}}]);
+//# sourceMappingURL=demo-home-route2.3d8ba6ed.js.map

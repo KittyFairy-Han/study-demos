@@ -1,0 +1,66 @@
+{
+  "name": "webpack-subpakage-MPA",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build_test": "set USE_TEST=test&&npm run build:demo",
+    "build_dev": "set NODE_ENV=development&&vue-cli-service build",
+    "build:all": "npm run build:face&&npm run build:cross&&npm run build:demo",
+    "build:face": "set PLUGIN_KEY=face&&vue-cli-service build",
+    "build:cross": "set PLUGIN_KEY=cross&&vue-cli-service build",
+    "build:demo": "set PLUGIN_KEY=demo&&vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "core-js": "^2.6.5",
+    "eslint-plugin-html": "^6.0.0",
+    "jquery": "^3.4.1",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "mockjs": "^1.0.1-beta3",
+    "qs": "^6.7.0",
+    "sass": "^1.23.0",
+    "sass-loader": "^8.0.0",
+    "vue": "^2.6.10",
+    "vue-i18n": "^8.14.1",
+    "vue-router": "^3.0.3",
+    "vuedraggable": "^2.23.2",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue-template-compiler": "^2.6.10",
+    "copy-webpack-plugin": "^4.6.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
