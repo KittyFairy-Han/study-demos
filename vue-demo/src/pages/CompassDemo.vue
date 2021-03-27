@@ -2,28 +2,37 @@
  * @Author: 鱼小柔
  * @Date: 2020-08-26 22:45:26
  * @LastEditors: your name
- * @LastEditTime: 2020-09-06 16:18:08
+ * @LastEditTime: 2020-09-13 12:50:45
  * @Description: file content
 -->
 <template>
   <section class="bottom-controller">
     <div class="camera-type-selector">
-      <compass :allData="list" :segNum="7" :rRatio="1/3" :transitionType="2" :rotateDuration="3000">
+      
+    </div>
+    <div class="area-selector">
+      <compass
+        :srcData="list"
+        :segNum="7"
+        :rRatio="1/3"
+        clipPathKey="区域选择"
+        :transitionType="1"
+        :rotateDuration="3000"
+      >
         <template v-slot="{itemData}">
-          <div class="camera-type-option" :style="{backgroundColor:itemData.color}">{{itemData.id}}</div>
+          <div class="area-option" :style="{backgroundColor:itemData.color}">{{itemData.id}}</div>
         </template>
         <template v-slot:item-side>
-            <div class="option-split"></div>
+          <div class="option-split"></div>
         </template>
       </compass>
     </div>
-    <div class="area-selector"></div>
     <div class="sence-selector"></div>
   </section>
 </template>
 
 <script>
-import Compass from "../components/CompassClippath";
+import Compass from "../components/Compass";
 function getColor(opacity) {
   const r = parseInt(Math.random() * 255);
   const g = parseInt(Math.random() * 255);
@@ -113,14 +122,20 @@ export default {
   .camera-type-selector {
     width: 600px;
     height: 600px;
-    .camera-type-option{
-        width: 100%;
-        height: 100%;
+    .camera-type-option {
+      width: 100%;
+      height: 100%;
     }
-    .option-split{
-        width: 100%;
-        height: 100%;
-        background-color: black;
+    .option-split {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+    }
+  }
+  .area-selector{
+    .area-option{
+      width: 100%;
+      height: 100%;
     }
   }
 }

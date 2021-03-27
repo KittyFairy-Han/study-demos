@@ -2,14 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2020-03-22 12:38:14
  * @LastEditors: your name
- * @LastEditTime: 2020-03-22 14:40:47
- * @Description: 工具函数
- */
-/*
- * @Author: 鱼小柔
- * @Date: 2020-03-22 12:38:14
- * @LastEditors: your name
- * @LastEditTime: 2020-03-22 12:57:31
+ * @LastEditTime: 2020-09-13 09:42:33
  * @Description: 工具函数
  */
 const srcContext = require.context("../");

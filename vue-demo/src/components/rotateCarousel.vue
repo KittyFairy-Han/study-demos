@@ -6,12 +6,11 @@
         v-for="(dot, index) in shapePoints"
         :key="dot.id"
         :style="_styleObj(dot, index)"
-        @click="jumpto(index)"
       >
         <slot :itemData="dot"></slot>
       </li>
 
-      <li class="center-dot" :style="centerStyleObj" key="center-one">
+      <li v-if="fixedCenterSize" class="center-dot" :style="centerStyleObj" key="center-one">
         <slot name="centerEle"></slot>
       </li>
     </transition-group>
@@ -39,53 +38,46 @@ function randomN() {
   return Math.floor(10 * Math.random());
 }
 
-const m2 = (x) => Math.pow(x, 2);
+function to360(radius) {
+  return (radius / Math.PI) * 180;
+}
 
 export default {
   props: {
+    /* 用于轮播的列表 */
+
     list: {
-      default: [],
+      default: ()=>{
+        return []
+      },
       type: Array,
-    },
+    } /* 是否循环轮播 */,
 
-    itemNum: {
-      default: 0,
-      type: Number,
-    },
-
-    itemw: {
-      default: 0,
-      type: Number,
-    },
-
-    itemh: {
-      default: 0,
-      type: Number,
-    },
-
-    marginx: {
-      default: 0,
-      type: Number,
-    },
-
-    offesetx: {
-      default: 0,
-      type: Number,
-    },
-
-    yAixLength: {
-      default: 0,
-      type: Number,
-    },
-
-    isFixedCenter: {
+    isLoop: {
       default: true,
       type: Boolean,
-    },
+    } /* 显示出来多少个 */,
 
-    fixedCenterw: {
-      default: 0,
+    itemNum: {
+      default: 3,
       type: Number,
+    } /* 每个[width,height] 单位是像素*/,
+
+    itemSize: {
+      default: () => [],
+      type: Array,
+      required: true,
+    } /* 总体区块[width,height] 单位是像素*/,
+
+    totalSize: {
+      default: () => [],
+      type: Array,
+      required: true,
+    } /* 中间的元素是否固定 */,
+
+    fixedCenterSize: {
+      default: () => null,
+      type: Array,
     },
   },
 
@@ -96,30 +88,62 @@ export default {
   },
 
   computed: {
-    xAixLength() {
-      let xAixLength;
-
-      if (this.isFixedCenter) {
-        xAixLength =
-          (this.marginx + this.itemw) * this.itemNum + this.fixedCenterw;
-      } else {
-        xAixLength = (this.marginx + this.itemw) * this.itemNum - this.marginx;
-      }
-
-      return xAixLength / 2;
+    centerStyleObj() {
+      const [w, h] = this.fixedCenterSize;
+      const y = this.totalSize[1];
+      return {
+        width: `${w}px`,
+        height: `${h}px`,
+        marginLeft: `${-w / 2}px`,
+        marginTop: `${-h / 2}px`,
+        left: 0,
+        top: `${y}px`,
+      };
     },
 
-    centerStyleObj() {
-      const x = 0 - this.fixedCenterw / 2;
-
-      const y = -(this.yAixLength + this.fixedCenterw / 2);
+    commonStyle() {
+      const [w, h] = this.itemSize;
 
       return {
-        width: `${this.fixedCenterw}px`,
-        height: `${this.fixedCenterw}px`,
-        left: `${x}px`,
-        bottom: `${y}px`,
+        width: `${w}px`,
+        height: `${w}px`,
+        marginLeft: `${-w / 2}px`,
+        marginTop: `${-w / 2}px`,
       };
+    },
+
+    distributeR() {
+      const b = this.totalSize[0] / 2;
+      const a = this.totalSize[1];
+      return (b * b + a * a) / (2 * a);
+    } /* 分布的角度（一半） */,
+
+    distributeAngle() {
+      const b = this.totalSize[0] / 2;
+      const a = this.distributeR - this.totalSize[1]; // console.log(b,a,to360(Math.atan(b / a)))
+      return Math.atan(b / a);
+    },
+
+    startAngle() {
+      return -Math.PI / 2 - this.distributeAngle;
+    },
+
+    extraAngle() {
+      if (this.fixedCenterSize) {
+        const w = this.fixedCenterSize[0] - this.itemSize[0];
+        const r = this.distributeR;
+        return Math.asin(w / 2 / r);
+      } else {
+        return 0;
+      }
+    },
+
+    gapAngle() {
+      const b = this.totalSize[0] / 2;
+      const a = this.distributeR - this.totalSize[1];
+      const gapNum = parseInt(this.itemNum / 2);
+      const gapA = (this.distributeAngle - this.extraAngle) / gapNum;
+      return gapA;
     },
   },
 
@@ -130,121 +154,70 @@ export default {
   methods: {
     showPre() {
       let position = this.list.indexOf(this.shapePoints[0]);
-
       if (position === 0) {
+        this.$emit("atStartDot");
+        if (!this.isLoop) {
+          return;
+        }
         position = this.list.length;
       }
-
+      console.log(position);
       this.shapePoints.unshift(this.list[position - 1]);
-
       this.shapePoints.pop();
     },
 
     showNext() {
       let position = this.list.indexOf(this.shapePoints[this.itemNum - 1]);
-
       if (position === this.list.length - 1) {
-        position = -1;
+        this.$emit("atEndDot");
+        if (!this.isLoop) {
+          return;
+        }
+        position = 0;
       }
-
       this.shapePoints.push(this.list[position + 1]);
-
       this.shapePoints.shift();
     },
 
-    jumpto(clickedIndex) {
-      const middleIndex = this.itemNum / 2;
-
-      const leftCenter = middleIndex - 1;
-
-      const rightCenter = middleIndex + 1;
-
-      if (clickedIndex < middleIndex) {
-        let n = leftCenter - clickedIndex;
-
-        while (n > 0) {
-          this.showPre();
-
-          n--;
-        }
-      } else {
-        let n = clickedIndex - rightCenter;
-
-        while (n >= 0) {
-          this.showNext();
-
-          n--;
-        }
-      }
-    },
-
     _styleObj(dot, index) {
-      const a = this.xAixLength;
+      const {
+        startAngle: sA,
+        gapAngle: gA,
+        distributeR: r,
+        extraAngle: eA,
+      } = this;
 
-      const b = this.yAixLength;
+      let angle = sA + index * gA;
+      if (this.fixedCenterSize && index >= this.itemNum / 2) {
+        angle += gA + 2 * eA;
+      } // console.log(to360(angle))
 
-      const r2 = Math.sqrt;
+      const y = r * sin(angle);
+      const x = r * cos(angle);
+      const left = `${parseInt(x)}px`;
+      const top = `${parseInt(-y - (r - this.totalSize[1]))}px`;
+      const positionStyle = { left, top };
 
-      let suStyle = {};
-
-      const comStyle = { width: `${this.itemw}px`, height: `${this.itemw}px` };
-
-      if (index < this.itemNum / 2) {
-        const x = -a + index * (this.marginx + this.itemw + this.offesetx);
-
-        const y = -r2(m2(b) * (1 - m2(x) / m2(a)));
-
-        suStyle = {
-          left: `${x - this.itemw / 2}px`,
-          bottom: `${y - this.itemh / 2}px`,
-        };
-      } else if (index >= this.itemNum / 2) {
-        const x =
-          -a +
-          (this.itemNum - 1 - index) *
-            (this.marginx + this.itemw + this.offesetx);
-
-        const y = -r2(m2(b) * (1 - m2(x) / m2(a)));
-
-        suStyle = {
-          right: `${x - this.itemw / 2}px`,
-          bottom: `${y - this.itemh / 2}px`,
-        };
-      }
-
-      return Object.assign(comStyle, suStyle);
+      return Object.assign({}, this.commonStyle, positionStyle);
     },
   },
 
   watch: {
-    list: {
-      immediate: true,
-
+    list:{
+      immediate:true,
       handler(newValue, oldValue) {
         const sps = newValue.slice(0, this.itemNum);
-
         this.shapePoints = sps;
       },
-    },
+    }
   },
 };
 </script>
 
-<style lang="less">
-html,
-body,
-.app {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
+ 
 
-.app {
-  position: relative;
-}
-
-.rotate-carousel-origin {
+<style lang="less">
+.rotate-carousel-origin  {
   width: 0;
   height: 0;
   position: absolute;
@@ -253,32 +226,36 @@ body,
   background-color: black;
 }
 
-.dot {
+  .dot  {
   display: block;
   position: absolute;
 }
 
-.center-dot {
+  .center-dot  {
   position: absolute;
 }
 
-.btn-pre,
-.btn-next {
+  .btn-pre,
+.btn-next  {
   cursor: pointer;
   position: absolute;
 }
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s;
+  .list-enter-active,
+.list-leave-active  {
+  transition: all 1s;
 }
 
 .list-enter,
-.list-leave-to {
-  opacity: 0; // transform: translateY(-100px);
+.list-leave-to  {
+  opacity: 0;
 }
 
-.list-move {
-  transition: all 1s;
+.list-move  {
+  transition: all 1s;
 }
 </style>
+
+ 
+
+ 

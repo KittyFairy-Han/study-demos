@@ -15,6 +15,7 @@
 const webpack = require("webpack");
 const path = require("path");
 module.exports = {
+  
   //全部配置项参考官网 https://cli.vuejs.org/zh/config/
   /**
 
