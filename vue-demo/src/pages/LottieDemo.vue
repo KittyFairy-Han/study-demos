@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-11 23:38:54
+ * @LastEditTime: 2021-07-12 00:12:29
  * @Description: 学习 lottie
 -->
 <template>
@@ -23,12 +23,10 @@ export default {
   },
   async mounted() {
     this.lottieAnim = this.loadLottieAnimation(JSON_DATA);
-    const r1a = await this.step1st();
-    console.log(r1a);
-    const r1b = await this.step1st();
-    console.log(r1b);
-    const r2 = await this.step2nd();
-    console.log(r2);
+    const r1 = await this.step1st();
+    console.log(r1);
+    const [r2,data] = await Promise.all([this.step2nd(), this.getData()]);
+    console.log(r2,data);
     const r3 = await this.step3rd();
     console.log(r3);
   },
@@ -42,7 +40,13 @@ export default {
         autoplay: false,
       });
     },
-
+    getData() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(parseInt((Math.random() + 1) * 100));
+        }, 3000);
+      });
+    },
     step1st() {
       return new Promise((resolve) => {
         this.lottieAnim.playSegments([0, 50], true);
