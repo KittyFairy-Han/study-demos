@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-11 23:24:32
+ * @LastEditTime: 2021-07-11 23:38:54
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,7 +14,6 @@
 
 <script>
 import lottie from "lottie-web";
-const loApi = require("lottie-api/dist/lottie_api");
 const JSON_DATA = require("../../public/lottery.json");
 export default {
   data() {
@@ -24,11 +23,13 @@ export default {
   },
   async mounted() {
     this.lottieAnim = this.loadLottieAnimation(JSON_DATA);
-    const r1 = await this.playStep1();
-    console.log(r1);
-    const r2 = await this.playStep2();
+    const r1a = await this.step1st();
+    console.log(r1a);
+    const r1b = await this.step1st();
+    console.log(r1b);
+    const r2 = await this.step2nd();
     console.log(r2);
-    const r3 = await this.playStep3();
+    const r3 = await this.step3rd();
     console.log(r3);
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
       });
     },
 
-    playStep1() {
+    step1st() {
       return new Promise((resolve) => {
         this.lottieAnim.playSegments([0, 50], true);
         this.lottieAnim.addEventListener("complete", () => {
@@ -56,7 +57,7 @@ export default {
         }; */
       });
     },
-    playStep2() {
+    step2nd() {
       return new Promise((resolve) => {
         this.lottieAnim.playSegments([51, 60], true);
         this.lottieAnim.addEventListener("complete", () => {
@@ -65,7 +66,7 @@ export default {
         });
       });
     },
-    playStep3() {
+    step3rd() {
       return new Promise((resolve) => {
         this.lottieAnim.playSegments([61, 90], true);
         this.lottieAnim.addEventListener("complete", () => {
