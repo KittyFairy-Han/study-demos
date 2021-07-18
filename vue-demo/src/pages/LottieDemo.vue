@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-18 16:33:51
+ * @LastEditTime: 2021-07-18 16:48:23
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,7 +14,7 @@
 
 <script>
 import lottie from "lottie-web";
-import loApi from "lottie-api"
+const loApi = require("lottie-api/dist/lottie_api");
 const JSON_DATA = require("../../public/lottery.json");
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
     console.log(r1);
     const [data] = await Promise.all([this.getData(),this.rollStep2nd()]);
     console.log(`will change “金额” to ${data}`)
-    this.changeTextByLottie()
+    this.changeTextByApi()
     const r3 = await this.step3rd();
     console.log(r3);
   },
@@ -103,10 +103,8 @@ export default {
     },
     changeTextByApi() {
       const api = loApi.createAnimationApi(this.lottieAnim);
-      const elements = api.getKeyPath("comp1","result"); // 查找对象
-      const a = elements.getElements()
-      debugger
-      elements.getElements()[0].setText(this.result);
+      const elements = api.getKeyPath("result").getElements(); // 查找对象
+      elements[0].setText({t: '￥'+this.result});
     },
   },
 };
