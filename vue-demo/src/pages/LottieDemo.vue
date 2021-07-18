@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-12 00:39:27
+ * @LastEditTime: 2021-07-18 20:02:48
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,7 +14,7 @@
 
 <script>
 import lottie from "lottie-web";
-const JSON_DATA = require("../../public/lottery.json");
+const JSON_DATA = require("../../public/lottery/data.json");
 export default {
   data() {
     return {
