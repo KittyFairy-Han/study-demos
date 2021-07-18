@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-18 20:00:43
+ * @LastEditTime: 2021-07-19 00:25:32
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,101 +14,53 @@
 
 <script>
 import lottie from "lottie-web";
-import loApi from "lottie-api";
 const JSON_DATA = require("../../public/lottery/data.json");
 export default {
   data() {
-    return {
-      lottieAnim: null,
-      result:'',
-      pending:true
-    };
+    return {};
   },
   async mounted() {
-    this.lottieAnim = this.loadLottieAnimation(JSON_DATA);
-    const r1 = await this.step1st();
-    console.log(r1);
-    const [data] = await Promise.all([this.getData(),this.rollStep2nd()]);
-    console.log(`will change “金额” to ${data}`)
-    this.changeTextByApi()
-    const r3 = await this.step3rd();
-    console.log(r3);
+    const data = this.changeData();
+    this.loadLottieAnimation(data);
   },
   methods: {
+    changeData(){
+      JSON_DATA.assets[0].u = ""; //图片所在的相对目录
+      JSON_DATA.assets[0].p =
+        "https://img2.baidu.com/it/u=3027700886,229179963&fm=26&fmt=auto&gp=0.jpg"; //'图片名称'
+      const str = JSON.stringify(JSON_DATA);
+      const newStr = str
+        .replace("￥金额", "中奖啦")
+      const newJson = JSON.parse(newStr);
+      return newJson;    
+    },
+    changeDataByStr() {
+      const str = JSON.stringify(JSON_DATA);
+      const newStr = str
+        .replace("￥金额", "中奖啦")
+        .replace("images/", "")
+        .replace(
+          "img_0.png",
+          "https://img2.baidu.com/it/u=3027700886,229179963&fm=26&fmt=auto&gp=0.jpg"
+        );
+      const newJson = JSON.parse(newStr);
+      return newJson;
+    },
+    changeDataByJS() {
+      JSON_DATA.assets[0].u = ""; //图片所在的相对目录
+      JSON_DATA.assets[0].p =
+        "https://img2.baidu.com/it/u=3027700886,229179963&fm=26&fmt=auto&gp=0.jpg"; //'图片名称'
+      JSON_DATA.layers[0].t.d.k[0].s.t = "中奖啦";
+      return JSON_DATA;
+    },
     loadLottieAnimation(data) {
       return lottie.loadAnimation({
         container: this.$refs.LottieD, //挂在到对应的dom节点
         renderer: "svg",
         loop: false,
         animationData: data,
-        autoplay: false,
+        autoplay: true,
       });
-    },
-    async getData() {
-      this.pending = true;
-      const result = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(parseInt((Math.random() + 1) * 100));
-        }, 500);
-      });
-      this.pending = false;
-      this.result = result
-      return result
-    },
-    step1st() {
-      return new Promise((resolve) => {
-        this.lottieAnim.playSegments([0, 50], true);
-        this.lottieAnim.addEventListener("complete", () => {
-          resolve("step1 end");
-          this.lottieAnim.removeEventListener("complete"); //移除事件监听，不然在第二段播放的时候也会执行这个回调。
-        });
-        // 或者
-        /* this.lottieAnim.onComplete = () => {
-          resolve("step1 end");
-          this.lottieAnim.onComplete = null //不移除也行，后面onComplete重新赋值会直接替换。
-        }; */
-      });
-    },
-    step2nd() {
-      return new Promise((resolve) => {
-        this.lottieAnim.playSegments([51, 60], true);
-        this.lottieAnim.addEventListener("complete", () => {
-          resolve("step2 end");
-          this.lottieAnim.removeEventListener("complete");
-        });
-      });
-    },
-    async rollStep2nd() {
-      while (this.pending) {
-        await this.step2nd();
-      }
-    },
-    step3rd() {
-      return new Promise((resolve) => {
-        this.lottieAnim.playSegments([61, 90], true);
-        this.lottieAnim.addEventListener("complete", () => {
-          resolve("step3 end");
-          this.lottieAnim.removeEventListener("complete");
-        });
-      });
-    },
-    
-    changeTextByLottie() {
-      this.lottieAnim.renderer.elements[0].updateDocumentData({ t: '￥'+this.result }, 0);
-    },
-    
-    changeTextByApi() {
-      const api = loApi.createAnimationApi(this.lottieAnim);
-      const elements = api.getKeyPath("result#DMNC_TXT").getElements(); // 查找对象
-      const ele = elements[0]
-      ele.setText('￥'+this.result);
-    },
-
-    changeTextBySvg() {
-      const node = document.querySelector("#DMNC_TXT tspan");
-      if (node) {
-        node.innerHTML = '￥'+this.result;
-      }
     },
   },
 };
