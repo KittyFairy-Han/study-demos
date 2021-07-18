@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-12 00:39:27
+ * @LastEditTime: 2021-07-18 16:33:51
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,12 +14,13 @@
 
 <script>
 import lottie from "lottie-web";
+import loApi from "lottie-api"
 const JSON_DATA = require("../../public/lottery.json");
 export default {
   data() {
     return {
       lottieAnim: null,
-      result:0,
+      result:'',
       pending:true
     };
   },
@@ -28,7 +29,8 @@ export default {
     const r1 = await this.step1st();
     console.log(r1);
     const [data] = await Promise.all([this.getData(),this.rollStep2nd()]);
-    console.log(data);
+    console.log(`will change “金额” to ${data}`)
+    this.changeTextByLottie()
     const r3 = await this.step3rd();
     console.log(r3);
   },
@@ -47,9 +49,10 @@ export default {
       const result = await new Promise((resolve) => {
         setTimeout(() => {
           resolve(parseInt((Math.random() + 1) * 100));
-        }, 3000);
+        }, 500);
       });
       this.pending = false;
+      this.result = result
       return result
     },
     step1st() {
@@ -88,6 +91,22 @@ export default {
           this.lottieAnim.removeEventListener("complete");
         });
       });
+    },
+    changeTextByLottie() {
+      this.lottieAnim.renderer.elements[0].updateDocumentData({ t: '￥'+this.result }, 0);
+    },
+    changeTextBySvg() {
+      const node = document.querySelector("#J_txt tspan");
+      if (node) {
+        node.innerHTML = newTxt;
+      }
+    },
+    changeTextByApi() {
+      const api = loApi.createAnimationApi(this.lottieAnim);
+      const elements = api.getKeyPath("comp1","result"); // 查找对象
+      const a = elements.getElements()
+      debugger
+      elements.getElements()[0].setText(this.result);
     },
   },
 };
