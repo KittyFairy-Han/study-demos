@@ -36,7 +36,8 @@
             "ddd": 1,
             "ind": 1,
             "ty": 5,
-            "nm": "result",
+            "nm": "result#DMNC_TXT",
+            "ln": "DMNC_TXT",
             "sr": 1,
             "ks": {
                 "o": {

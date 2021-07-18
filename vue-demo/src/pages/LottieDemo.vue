@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2021-02-28 10:06:15
  * @LastEditors: your name
- * @LastEditTime: 2021-07-18 16:48:23
+ * @LastEditTime: 2021-07-18 20:00:43
  * @Description: 学习 lottie
 -->
 <template>
@@ -14,8 +14,8 @@
 
 <script>
 import lottie from "lottie-web";
-const loApi = require("lottie-api/dist/lottie_api");
-const JSON_DATA = require("../../public/lottery.json");
+import loApi from "lottie-api";
+const JSON_DATA = require("../../public/lottery/data.json");
 export default {
   data() {
     return {
@@ -92,19 +92,23 @@ export default {
         });
       });
     },
+    
     changeTextByLottie() {
       this.lottieAnim.renderer.elements[0].updateDocumentData({ t: '￥'+this.result }, 0);
     },
-    changeTextBySvg() {
-      const node = document.querySelector("#J_txt tspan");
-      if (node) {
-        node.innerHTML = newTxt;
-      }
-    },
+    
     changeTextByApi() {
       const api = loApi.createAnimationApi(this.lottieAnim);
-      const elements = api.getKeyPath("result").getElements(); // 查找对象
-      elements[0].setText({t: '￥'+this.result});
+      const elements = api.getKeyPath("result#DMNC_TXT").getElements(); // 查找对象
+      const ele = elements[0]
+      ele.setText('￥'+this.result);
+    },
+
+    changeTextBySvg() {
+      const node = document.querySelector("#DMNC_TXT tspan");
+      if (node) {
+        node.innerHTML = '￥'+this.result;
+      }
     },
   },
 };
