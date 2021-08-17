@@ -7,8 +7,8 @@
 -->
 <template>
   <main class="some-selector">
-    <rotate-carousel :itemSize="[150,150]" :totalSize="[800,100]" :list="list" v-slot="{itemData}">
-      <div class="selector-option">{{itemData.name}}</div>
+    <rotate-carousel :itemSize="[150,150]" :totalSize="[800,100]" :list="list">
+      <div slot-scope="{itemData}" class="selector-option">{{itemData.name}}</div>
     </rotate-carousel>
   </main>
 </template>

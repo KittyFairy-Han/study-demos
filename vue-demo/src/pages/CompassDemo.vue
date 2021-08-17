@@ -19,7 +19,7 @@
         :transitionType="1"
         :rotateDuration="3000"
       >
-        <template v-slot="{itemData}">
+        <template slot-scope="{itemData}">
           <div class="area-option" :style="{backgroundColor:itemData.color}">{{itemData.id}}</div>
         </template>
         <template v-slot:item-side>
