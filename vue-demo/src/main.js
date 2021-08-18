@@ -10,6 +10,8 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
+import Compass from "vcompass";
+Vue.use(Compass)
 
 Vue.config.productionTip = false;
 

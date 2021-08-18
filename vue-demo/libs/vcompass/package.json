@@ -1,0 +1,29 @@
+{
+  "name": "vcompass",
+  "version": "1.0.2",
+  "description": "一个罗盘选择器组件",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KittyFairy-Han/study-demos.git"
+  },
+  "keywords": [
+    "vue",
+    "compass",
+    "component",
+    "ui",
+    "vue-component"
+  ],
+  "author": "柔小鱼",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KittyFairy-Han/study-demos/issues"
+  },
+  "homepage": "https://github.com/KittyFairy-Han/study-demos#readme"
+}

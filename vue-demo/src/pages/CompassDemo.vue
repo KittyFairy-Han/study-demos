@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import Compass from "../components/Compass";
 function getColor(opacity) {
   const r = parseInt(Math.random() * 255);
   const g = parseInt(Math.random() * 255);
@@ -42,7 +41,7 @@ function getColor(opacity) {
 }
 export default {
   components: {
-    Compass,
+    // Compass,
   },
   data() {
     return {
