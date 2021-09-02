@@ -12,7 +12,12 @@
 </template>
 
 <script>
-export default {};
+import * as Echarts from 'echarts'
+export default {
+  created(){
+    console.log(Echarts)
+  }
+}
 </script>
 
 <style lang="less">
