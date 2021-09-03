@@ -29,12 +29,15 @@ module.exports = {
   },
 
   customCacheGroups: {
-    "echart": {
-      name: "echarts-vendor",
+    "echarts": {
+      name: "chunk-echarts",
       chunks: "initial",
       test: /(echarts)/,
-      priority: 100,
+      // priority: 0,//默认行为
+      minChunks:2,
+      
     },
+    
    
   },
 };

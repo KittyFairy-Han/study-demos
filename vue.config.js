@@ -18,6 +18,7 @@ const defaultCacheGroup = {
     test: /[\\\/]node_modules[\\\/]/,
     priority: -10,
     chunks: "initial",
+    reuseExistingChunk: true,
   },
   common: {
     name: "chunk-common",
