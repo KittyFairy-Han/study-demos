@@ -5,7 +5,7 @@
  * @LastEditTime: 2021-02-13 09:21:23
  * @Description: 入口js
  */
-import "../../../assets/less/reset.less"; //样式重置
+
 import Vue from "vue"
 import App from "./App.vue"
 new Vue({

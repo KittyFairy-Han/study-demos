@@ -7,16 +7,59 @@
  */
 const webpack = require("webpack");
 const path = require("path");
-const config = process.env.NODE_ENV === "production" ? require("./config/prod.js") : require("./config/dev.js");
+const config =
+  process.env.NODE_ENV === "production"
+    ? require("./config/prod.js")
+    : require("./config/dev.js");
 
+const defaultCacheGroup = {
+  vendors: {
+    name: "chunk-vendors",
+    test: /[\\\/]node_modules[\\\/]/,
+    priority: -10,
+    chunks: "initial",
+  },
+  common: {
+    name: "chunk-common",
+    minChunks: 2,
+    priority: -20,
+    chunks: "initial",
+    reuseExistingChunk: true,
+  },
+};
 module.exports = {
   //全部配置项参考官网 https://cli.vuejs.org/zh/config/
 
   publicPath: config.publicPath,
-  outputDir: config.outputDir,
-  assetsDir: config.assetsDir,
+  // 输出包的跟目录(相对于项目跟目录
+  outputDir: "dist",
+  // 静态资源目录（相对于outputDir
+  assetsDir: "assets",
 
-  pages: config.pages,
+  pages: {
+    home: {
+      // page 的入口(相对于项目的跟目录)
+      entry: `src/pages/home/main.js`,
+      // 模板来源(相对于项目的跟目录)
+      template: `src/common/template/index.html`,
+      // 输出位置(相对于 outputDir
+      filename: `home.html`,
+      // 当使用 title 选项时，
+      // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+      title: `home页面`,
+    },
+    about: {
+      // page 的入口(相对于项目的跟目录)
+      entry: `src/pages/about/main.js`,
+      // 模板来源(相对于项目的跟目录)
+      template: `src/common/template/index.html`,
+      // 输出位置(相对于 outputDir
+      filename: `about.html`,
+      // 当使用 title 选项时，
+      // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+      title: `about`,
+    },
+  },
 
   css: {
     extract: config.cssExtract,
@@ -43,18 +86,18 @@ module.exports = {
       .set("@common", path.resolve(__dirname, "src/common/"));
     webpackConfig.module.rule("less");
     /* 入口js形成chunk后输出的文件名 */
-    webpackConfig.output.filename(config.entryJsOutputTo).end();
+    //入口js形成chunk后输出的文件名
+    webpackConfig.output.filename(`[name].js`).end();
     /* 主动分 chunk */
-    // if(config.cacheGroups){
-    //   webpackConfig.optimization.splitChunks({
-    //     maxInitialRequests: config.cacheGroups.total,
-    //     cacheGroups: config.cacheGroups.obj,
-    //   });
-    // }
+    if (config.customCacheGroups) {
+      webpackConfig.optimization.splitChunks({
+        cacheGroups: Object.assign(config.customCacheGroups, defaultCacheGroup),
+      });
+    }
   },
 
   /* 后端代理 */
-  devServer: config.devServer,
+
   lintOnSave: false,
-  productionSourceMap: config.productionSourceMap,
+  productionSourceMap: false,
 };
