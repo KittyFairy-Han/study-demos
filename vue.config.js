@@ -2,7 +2,7 @@
  * @Author: hanqing5
  * @Date: 2019-10-10 09:43:26
  * @LastEditors: your name
- * @LastEditTime: 2021-01-24 14:15:46
+ * @LastEditTime: 2021-09-05 23:41:17
  * @Description: vue webpack 配置
  */
 const webpack = require("webpack");
@@ -12,13 +12,13 @@ const config =
     ? require("./config/prod.js")
     : require("./config/dev.js");
 
+// vuecli3 默认配置
 const defaultCacheGroup = {
   vendors: {
     name: "chunk-vendors",
     test: /[\\\/]node_modules[\\\/]/,
     priority: -10,
     chunks: "initial",
-    reuseExistingChunk: true,
   },
   common: {
     name: "chunk-common",
@@ -69,6 +69,7 @@ module.exports = {
   /* webpack相关配置 */
   /* 基于环境有条件地配置webpack, 该函数会在环境变量被设置之后懒执行 */
   configureWebpack: (webpackConfig) => {
+    // console.log(webpackConfig.optimization.splitChunks)
     webpackConfig.plugins.push(
       new webpack.DefinePlugin({
         "process.env.USE_TEST": JSON.stringify(process.env.USE_TEST), //在webpack打包好的文件中也能使用node环境下编译时的变量
@@ -92,7 +93,8 @@ module.exports = {
     /* 主动分 chunk */
     if (config.customCacheGroups) {
       webpackConfig.optimization.splitChunks({
-        cacheGroups: Object.assign(config.customCacheGroups, defaultCacheGroup),
+        // maxInitialRequests:3, //默认
+        cacheGroups: Object.assign({},defaultCacheGroup,config.customCacheGroups),
       });
     }
   },

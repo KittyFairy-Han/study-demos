@@ -2,7 +2,7 @@
  * @Author: hanqing5
  * @Date: 2020-12-04 11:16:31
  * @LastEditors: your name
- * @LastEditTime: 2020-12-19 22:16:49
+ * @LastEditTime: 2021-09-05 22:51:37
  * @Description: 文件描述
 -->
 <template>
@@ -13,8 +13,10 @@
 
 <script>
 import * as Echarts from 'echarts'
+import $ from 'jquery'
 export default {
   created(){
+    console.log($)
     console.log(Echarts)
   }
 }
