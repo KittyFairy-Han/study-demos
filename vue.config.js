@@ -52,7 +52,7 @@ module.exports = {
       template: `src/common/template/index.html`,
       // 输出位置(相对于 outputDir
       filename: `about.html`,
-      // 
+      // 与入口文件并行加载的chunk,splitchunks 改动之后要配置一下chunks，不能使用默认的了
       chunks: ['chunk-echarts','chunk-vendors', 'chunk-common', 'about']
     },
   },
@@ -65,8 +65,6 @@ module.exports = {
 
   /* webpack 链式 */
   chainWebpack: (webpackConfig) => {
-    /* 入口js形成chunk后输出的文件名 */
-    webpackConfig.output.filename(`[name].js`).end();
     /* 主动分 chunk */
     webpackConfig.optimization.splitChunks({
       cacheGroups: Object.assign({},defaultCacheGroups,config.customCacheGroups),
