@@ -4,12 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build_test": "set USE_TEST=test&&npm run build:demo",
-    "build_dev": "set NODE_ENV=development&&vue-cli-service build",
-    "build:all": "npm run build:face&&npm run build:cross&&npm run build:demo",
-    "build:face": "set PLUGIN_KEY=face&&vue-cli-service build",
-    "build:cross": "set PLUGIN_KEY=cross&&vue-cli-service build",
-    "build:demo": "set PLUGIN_KEY=demo&&vue-cli-service build",
+    "build_test": "set USE_TEST=test&&vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

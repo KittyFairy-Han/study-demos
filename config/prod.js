@@ -5,14 +5,6 @@
  * @LastEditTime: 2021-01-24 14:02:25
  * @Description: 开发环境配置，会被vue.config.js引入和使用
  */
-console.log(
-  `=======生产环境   当前运行的命令是:${process.argv.slice(2)}  插件key是:${
-    process.env.PLUGIN_KEY
-  }   =======`
-);
-const path = require("path");
-const fs = require("fs");
-const { getSkinKeys, getPageNameList, setPage } = require("./utils");
 
 module.exports = {
   publicPath: process.env.USE_TEST ? `./` : `online-path/`,

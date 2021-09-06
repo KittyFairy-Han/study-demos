@@ -10,6 +10,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 
+/* 按需加载主题 */
 window.setSkin = function(color) {
   import(
     /* webpackChunkName: "app-theme-" */

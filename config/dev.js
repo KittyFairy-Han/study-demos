@@ -6,13 +6,8 @@
  * @Description: 开发环境配置，会被vue.config.js引入和使用
  */
 
-console.log(
-  `=============开发环境   当前运行的命令是:${process.argv.slice(
-    2
-  )}   =============`
-);
 
-const { getPluginKeys, getPageNameList, setPage } = require("./utils");
+
 module.exports = {
   publicPath: "/",
 
