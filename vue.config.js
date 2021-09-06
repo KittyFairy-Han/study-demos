@@ -2,7 +2,7 @@
  * @Author: hanqing5
  * @Date: 2019-10-10 09:43:26
  * @LastEditors: your name
- * @LastEditTime: 2021-01-24 14:15:46
+ * @LastEditTime: 2021-09-05 23:41:17
  * @Description: vue webpack 配置
  */
 const config =
@@ -16,7 +16,6 @@ const defaultCacheGroups = {
     test: /[\\\/]node_modules[\\\/]/,
     priority: -10,
     chunks: "initial",
-    reuseExistingChunk: true,
   },
   common: {
     name: "chunk-common",
