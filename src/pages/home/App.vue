@@ -7,25 +7,62 @@
 -->
 <template>
   <div id="app">
-     <main class="demo-home-root">当前位置：home页面</main>
+     <h1 class="home-title">当前位置：home页面</h1>
+     <div id="chart-wrapper"></div>
   </div>
 </template>
 
 <script>
-import * as Echarts from 'echarts'
+import * as echarts from "echarts";
 export default {
-  created(){
-    console.log(Echarts)
-  }
-}
+  mounted() {
+    const chartDom = document.getElementById("chart-wrapper");
+    const myChart = echarts.init(chartDom);
+    
+    const option = {
+      legend: {
+        top: "bottom",
+      },
+      series: [
+        {
+          name: "面积模式",
+          type: "pie",
+          radius: [50, 250],
+          center: ["50%", "50%"],
+          roseType: "area",
+          itemStyle: {
+            borderRadius: 8,
+          },
+          data: [
+            { value: 40, name: "rose 1" },
+            { value: 38, name: "rose 2" },
+            { value: 32, name: "rose 3" },
+            { value: 30, name: "rose 4" },
+            { value: 28, name: "rose 5" },
+            { value: 26, name: "rose 6" },
+            { value: 22, name: "rose 7" },
+            { value: 18, name: "rose 8" },
+          ],
+        },
+      ],
+    };
+
+    myChart.setOption(option);
+  },
+};
 </script>
 
 <style lang="less">
-.demo-home-root{
+.home-title{
+  text-align: center;
+  font-size: 50px;
+}
+#chart-wrapper{
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  font-size: 50px;
+  width: 1000px;
+  height: 800px;
 }
 </style>

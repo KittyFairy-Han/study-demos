@@ -26,10 +26,8 @@ module.exports = {
       chunks: "initial",
       test: /(echarts)/,
       // priority: 0,//默认行为
-      minChunks:2,
-      
+      // minChunks:1,//默认行为
     },
     
-   
   },
 };

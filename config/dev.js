@@ -10,8 +10,9 @@
 
 module.exports = {
   publicPath: "/",
-
   // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中 (而不是动态注入到 JavaScript 中的 inline 代码)
   // 设置为 true 或者一个对象，则代表提取，参考prod.js
   cssExtract: false,
+  // 不自定义缓存组
+  customCacheGroups:{}
 };

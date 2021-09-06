@@ -7,17 +7,17 @@
 -->
 <template>
   <div id="app">
-    <main class="demo-other-page">about页面</main>
+    <h1>about页面</h1>
   </div>
 </template>
 
 <script>
-import * as Echarts from 'echarts'
+import * as echarts from "echarts";
 export default {
-  created(){
-    console.log(Echarts)
-  }
-}
+  created() {
+    console.log(echarts)
+  },
+};
 </script>
 
 <style lang="less">
