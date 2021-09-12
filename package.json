@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build_test": "set USE_TEST=test&&vue-cli-service build",
+    "build": "npm run build:demo&&npm run build:other",
+    "build:demo": "set PLUGIN_KEY=demo&&vue-cli-service build",
+    "build:other": "set PLUGIN_KEY=other&&vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
