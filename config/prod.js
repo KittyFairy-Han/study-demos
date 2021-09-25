@@ -2,31 +2,19 @@
  * @Author: 鱼小柔
  * @Date: 2020-12-26 15:30:15
  * @LastEditors: your name
- * @LastEditTime: 2021-09-12 16:52:51
+ * @LastEditTime: 2021-09-25 15:21:24
  * @Description: 开发环境配置，会被vue.config.js引入和使用
  */
-
-const apps = {
-  demo: {
-    home: {
-      entry: `src/apps/demo/home/main.js`, // page 的入口(相对于项目的根目录)
-      template: `src/common/template/index.html`, // 模板来源(相对于项目的根目录)
-      filename: `demo-home.html`, // 输出位置(相对于 outputDir
-    },
-    about: {
-      entry: `src/apps/demo/about/main.js`,
-      template: `src/common/template/index.html`,
-      filename: `demo-about.html`,
-    },
-  },
-  other: {
-    home: {
-      entry: `src/apps/other/home/main.js`,
-      template: `src/common/template/index.html`,
-      filename: `other-home.html`,
-    },
-  },
+const { getPageNames, setPage } = require("./utils");
+const getPagesFrom = (appKey) => {
+  const pages = {};
+  const pageNames = getPageNames(appKey);
+  for (const pageName of pageNames) {
+    pages[`${appKey}-${pageName}`] = setPage(appKey, pageName);
+  }
+  return pages;
 };
+
 
 module.exports = {
   publicPath: "./",
@@ -41,5 +29,5 @@ module.exports = {
     chunkFilename: `assets/css/[name].css`,
   },
   outputDir: `dist/${process.env.PLUGIN_KEY}`,
-  pages: apps[process.env.PLUGIN_KEY],
+  pages: getPagesFrom(process.env.PLUGIN_KEY),
 };
