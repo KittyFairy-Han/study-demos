@@ -9,6 +9,7 @@
     "build:dev": "set NODE.ENV=development&&vue-cli-service build"
   },
   "dependencies": {
+    "echarts": "^5.2.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "lottie-api": "^1.0.3",
