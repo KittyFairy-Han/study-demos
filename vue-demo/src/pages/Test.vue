@@ -1,9 +1,16 @@
+<!--
+ * @Author: 鱼小柔
+ * @Date: 2021-10-24 17:58:50
+ * @LastEditors: your name
+ * @LastEditTime: 2021-10-24 22:13:36
+ * @Description: file content
+-->
 <template>
-  <main>
-    <button @click="toShare">点我生成海报并绘制到屏幕</button>
-    <img class="poster-pic" :src="posterPicData" alt="">
-    <section  id="magic-result-share-poster" class="list-box">
-      <h2>恭喜你中了xxx等奖</h2>
+  <main class="poster-demo"  id="poster-demo">
+    <img class="poster-pic" :src="posterPicData" alt="" />
+    <img class="bg" :src="bg" alt="" />
+    <h2 @click="toShare">恭喜你中了xxx等奖(↓生成)</h2>
+    <section class="list-box">
       <div class="pic-box" v-for="(item, index) in list" :key="index">
         <img :src="item" alt="" />
       </div>
@@ -13,6 +20,7 @@
 
 <script>
 import Poster from "../components/poster/index";
+import bg from "../img/bg_share.jpg";
 export default {
   data() {
     return {
@@ -24,7 +32,8 @@ export default {
         "https://image.uc.cn/s/wemedia/s/upload/2020/d240615e4c83f93700106fb4d87e64b7.jpg",
         "https://c.53326.com/d/file/lan2018070209/msl13w1t01i.jpg",
       ],
-      posterPicData:undefined,
+      posterPicData: undefined,
+      bg,
     };
   },
   async mounted() {
@@ -37,57 +46,74 @@ export default {
       style: { size: 114, black: "#381e82" },
     });
   },
-  methods:{
+  methods: {
     async toShare() {
-
-			const file = await this.poster.getPosterFile({
-				posterDom: document.getElementById('magic-result-share-poster'),
-			})
-
-			// 检查生成的二进制文件是否是正常的图片
-			const srcData = URL.createObjectURL(file)
-			this.posterPicData = srcData
-		},
-    
-  }
+      const file = await this.poster.getPosterFile({
+        posterDom: document.getElementById("poster-demo"),
+      });
+      // //检查生成的二进制文件是否是正常的图片
+      const srcData = URL.createObjectURL(file);
+      this.posterPicData = srcData;
+    },
+  },
 };
 </script>
 
 <style lang="less">
-.list-box {
+.poster-demo {
   position: relative;
-  box-sizing: border-box;
   width: 375px;
   height: 650px;
-  background-image: url('../img/bg_share.jpg');
-  background-size: 100% 100%;
-  padding: 112.5px 22.5px 137.5px 22.5px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
+  // background-image: url('../img/bg_share.jpg');
+  // background-size: 100% 100%;
+  .bg {
+    z-index: 2;
+    position: absolute;
+    width: 375px;
+    height: 650px;
+    left: 0;
+    top: 0;
+    // display: none;
+  }
   h2 {
+    z-index: 3;
     position: absolute;
     left: 22.5px;
     top: 22.5px;
     color: white;
   }
-}
-.pic-box {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
+  .list-box {
+    z-index: 4;
+    position: absolute;
+    top: 112px;
+    left: 22px;
+    width: 330px;
+    height: 400px;
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+    .pic-box {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 3;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
-h1{
+
+h1 {
   text-align: center;
   cursor: pointer;
 }
-.poster-pic{
+.poster-pic {
   position: absolute;
   width: 375px;
   left: 0;

@@ -2,7 +2,7 @@
  * @Author: 鱼小柔
  * @Date: 2020-03-07 22:31:17
  * @LastEditors: your name
- * @LastEditTime: 2020-09-13 09:54:35
+ * @LastEditTime: 2021-10-24 18:05:41
  * @Description: file content
 -->
 <template>
@@ -33,6 +33,7 @@ export default {
   line-height: 44px;
   font-size: 16px;
   justify-content: space-between;
+  overflow: scroll;
   .tab-item {
     padding: 0 5px;
     .tab-link {
