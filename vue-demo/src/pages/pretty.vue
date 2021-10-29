@@ -32,12 +32,35 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["7.17", "8.6", "8.20", "9.3", "9.17", "9.30"],
+          data: [
+            "7.17",
+            "8.6",
+            "8.20",
+            "9.3",
+            "9.17",
+            "9.30",
+            "10.16",
+            "10.29",
+          ],
         },
         yAxis: {
           type: "value",
           min: 5,
         },
+      },
+      weight: [98.6, 97.0, 96.2, 94, 94.2, 91.0, 91.4, 92],
+      muscle: [17, 16.9, 16.7, 16.5, 16.7, 16.1, 16.2, 16.3],
+      fat: [16.8, 16.3, 16.4, 15.6, 15.2, 14.8, 14.8, 14.8],
+      percent: [34.2, 33.7, 34.2, 33.2, 32.2, 32.6, 32.3, 32.2],
+      fatDetail: {
+        leg: [5.8, 5.4, 5.6, 5.4, 5.4, 5.0, 5.0, 5.2],
+        arm: [2.4, 2.4, 2.3, 2.2, 2.2, 2.1, 2.1, 2.1],
+        in: [7.7, 7.6, 7.6, 7.1, 6.8, 6.8, 6.8, 6.6],
+      },
+      muscleDetail: {
+        leg: [10.04, 9.79, 9.98, 9.94, 10.03, 9.63, 9.63, 9.83],
+        arm: [2.42, 2.44, 2.44, 2.32, 2.29, 2.34, 2.34, 2.29],
+        in: [13.6, 13.6, 13.8, 13.4, 13.2, 13.5, 13.5, 13.3],
       },
     };
   },
@@ -58,7 +81,7 @@ export default {
           name: "体重",
           type: "line",
           areaStyle: {},
-          data: [98.6, 97.0, 96.2, 94, 94.2, 91.0],
+          data: this.weight,
         },
       ];
 
@@ -69,23 +92,37 @@ export default {
         {
           name: "体脂率",
           type: "line",
-          data: [34.2, 33.7, 34.2, 33.2, 32.2, 32.6],
+          data: this.percent,
         },
       ];
 
       this.draw(series);
+    },
+    drawTwo() {
+      this.draw([
+        {
+          name: "体脂肪",
+          type: "line",
+          data: this.fat,
+        },
+        {
+          name: "骨骼肌",
+          type: "line",
+          data: this.muscle,
+        },
+      ]);
     },
     drawLeg() {
       this.draw([
         {
           name: "腿部脂肪",
           type: "line",
-          data: [5.8, 5.4, 5.6, 5.4, 5.4, 5],
+          data: this.fatDetail.leg,
         },
         {
           name: "腿部肌肉",
           type: "line",
-          data: [10.04, 9.79, 9.98, 9.94, 10.03, 9.63],
+          data: this.muscleDetail.leg,
         },
       ]);
     },
@@ -94,12 +131,12 @@ export default {
         {
           name: "手臂脂肪",
           type: "line",
-          data: [2.4, 2.4, 2.3, 2.2, 2.2, 2.1],
+          data: this.fatDetail.arm,
         },
         {
           name: "手臂肌肉",
           type: "line",
-          data: [2.42, 2.44, 2.44, 2.32, 2.29, 2.34],
+          data: this.muscleDetail.arm,
         },
       ]);
     },
@@ -108,72 +145,59 @@ export default {
         {
           name: "内脏脂肪",
           type: "line",
-          data: [7.7, 7.6, 7.6, 7.1, 6.8, 6.8],
+          data: this.fatDetail.in,
         },
         {
           name: "内脏肌肉",
           type: "line",
-          data: [13.6, 13.6, 13.8, 13.4, 13.2, 13.5],
+          data: this.muscleDetail.in,
         },
       ]);
     },
-    drawTwo() {
-      this.draw([
-        {
-          name: "体脂肪",
-          type: "line",
-          data: [16.8, 16.3, 16.4, 15.6, 15.2, 14.8],
-        },
-        {
-          name: "骨骼肌",
-          type: "line",
-          data: [17, 16.9, 16.7, 16.5, 16.7, 16.1],
-        },
-      ]);
-    },
+
     drawAllDetail() {
       this.draw([
         {
           name: "腿部脂肪",
           type: "line",
-          data: [5.8, 5.4, 5.6, 5.4, 5.4, 5],
+          data: this.fatDetail.leg,
         },
         {
           name: "腿部肌肉",
           type: "line",
-          data: [10.04, 9.79, 9.98, 9.94, 10.03, 9.63],
+          data: this.muscleDetail.leg,
         },
         {
           name: "手臂脂肪",
           type: "line",
-          data: [2.4, 2.4, 2.3, 2.2, 2.2, 2.1],
+          data: this.fatDetail.arm,
         },
         {
           name: "手臂肌肉",
           type: "line",
-          data: [2.42, 2.44, 2.44, 2.32, 2.29, 2.34],
+          data: this.muscleDetail.arm,
         },
         {
           name: "内脏脂肪",
           type: "line",
-          data: [7.7, 7.6, 7.6, 7.1, 6.8, 6.8],
+          data: this.fatDetail.in,
         },
         {
           name: "内脏肌肉",
           type: "line",
-          data: [13.6, 13.6, 13.8, 13.4, 13.2, 13.5],
+          data: this.muscleDetail.in,
         },
         {
           name: "体脂肪",
           type: "line",
 
-          data: [16.8, 16.3, 16.4, 15.6, 15.2, 14.8],
+          data: this.fat,
         },
         {
           name: "骨骼肌",
           type: "line",
 
-          data: [17, 16.9, 16.7, 16.5, 16.7, 16.1],
+          data: this.muscle,
         },
       ]);
     },
