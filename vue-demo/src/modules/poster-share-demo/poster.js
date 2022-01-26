@@ -9,6 +9,7 @@ async function createPoster(posterDom, drawCanvasConfiguration, canvasToDataConf
   if (!isObj(drawCanvasConfiguration)) {
     drawCanvasConfiguration = {
       useCORS: true,
+      allowTaint: true   
     };
   }
   if (!isObj(canvasToDataConfiguration)) {

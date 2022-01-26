@@ -46,8 +46,8 @@ export default {
   width: 100%;
   height: 100%;
   .text {
-    .center-by-abs-margin(140px, 42px);
-    font-size: 32px;
+    .center-by-abs-margin(70px, 21px);
+    font-size: 16px;
     color: #f9e1ff;
     text-shadow: 0px 0px 11.9975px rgba(255, 255, 255, 0.6), 0px 0px 23.9951px rgba(255, 255, 255, 0.25);
   }
@@ -57,43 +57,43 @@ export default {
     height: 100%;
     overflow: visible;
     .prize-item {
-      .center-by-abs-margin(240px, 280px);
+      .center-by-abs-margin(120px, 140px);
 
       &:nth-child(1) {
-        transform: scale(1) translateY(-280px);
+        transform: scale(1) translateY(-140px);
       }
       &:nth-child(2) {
-        transform: scale(1) translate(240px, -40px);
+        transform: scale(1) translate(120px, -20px);
       }
       &:nth-child(3) {
-        transform: scale(1) translate(-160px, 280px);
+        transform: scale(1) translate(-80px, 140px);
       }
       &:nth-child(4) {
-        transform: scale(1) translate(160px, 280px);
+        transform: scale(1) translate(80px, 140px);
       }
       &:nth-child(5) {
-        transform: scale(1) translate(-240px, -40px);
+        transform: scale(1) translate(-120px, -20px);
       }
 
       .pic {
-        .el-fit-bgimg(240px, 240px, url("../../img/magic/prize-blue.png"));
+        .el-fit-bgimg(120px, 120px, url("../../img/magic/prize-blue.png"));
         display: flex;
         justify-content: center;
         align-items: center;
 
         &.rare {
-          .el-fit-bgimg(240px, 240px, url("../../img/magic/prize-gold.png"));
+          .el-fit-bgimg(120px, 120px, url("../../img/magic/prize-gold.png"));
         }
         img {
-          width: 160px;
-          height: 160px;
+          width: 80px;
+          height: 80px;
           object-fit: contain;
           object-position: center;
         }
       }
       .name {
-        height: 40px;
-        line-height: 40px;
+        height: 20px;
+        line-height: 20px;
         color: white;
         text-align: center;
 
