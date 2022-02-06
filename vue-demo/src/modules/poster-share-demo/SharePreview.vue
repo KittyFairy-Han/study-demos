@@ -147,8 +147,8 @@ export default {
 
   .share-wrapper {
     position: relative;
-    width: 750px;
-    height: 1300px;
+    // width: 750px;
+    // height: 1300px;
     border-radius: 16px;
     transform: scale(0.9);
     overflow: hidden;
@@ -158,6 +158,7 @@ export default {
       .el-fit-bgimg(750px,1300px,url("./images/bg.jpg"));
       padding: 30px 44px;
       position: relative;
+      box-sizing: border-box;
       header {
         position: absolute;
         left: 44px;
@@ -188,16 +189,17 @@ export default {
       }
       footer {
         position: absolute;
-        left: 0.44rem;
+        left: 44px;
         right: 44px;
         bottom: 40px;
         display: flex;
         justify-content: space-between;
         .text {
           font-size: 36px;
-          line-height: 150%;
+          line-height: 40px;
           color: #ddd0ff;
           font-weight: bold;
+          text-align: left;
           .highlight {
             color: #62c4e9;
           }
