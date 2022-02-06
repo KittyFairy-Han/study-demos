@@ -2,6 +2,7 @@
   <section class="share-preview">
     <div class="share-wrapper">
       <div class="share-container" id="magic-result-share-poster">
+        <!-- <img class="bg" src="./images/bg.jpg"> -->
         <header>
           <p class="title">欧气分享</p>
           <p class="nickname">用户昵称 {{ '小小' }}</p>
@@ -26,17 +27,17 @@
         :class="{ disabled: !canShare }"
         @click="toShare('wechat')"
       >
-        <span>微信</span>
+        <!-- <span>微信</span> -->
       </li>
       <li
         class="pyq"
         :class="{ disabled: !canShare }"
         @click="toShare('wechat_line')"
       >
-        <span>朋友圈</span>
+        <!-- <span>朋友圈</span> -->
       </li>
       <li class="download" :class="{ disabled: !canShare }" @click="toShare">
-        <span>下载图片</span>
+        <!-- <span>下载图片</span> -->
       </li>
     </ul>
     <!-- <form
@@ -54,7 +55,7 @@
 import Poster from "./poster";
 // 组件多了用异步动态引入，目前只有两个，都比较小暂用静态引入
 import Five from "./Five.vue";
-
+import bgImg from "./images/bg.jpg"
 export default {
   components: {  Five },
   props: {
@@ -151,9 +152,14 @@ export default {
     transform: scale(0.9);
     overflow: hidden;
     .share-container {
-      // background-image: url('./images/bg.jpg');
-      // background-size: 100% 100%;
+      position: relative;
       .el-fit-bgimg(375px,650px,url("./images/bg.jpg"));
+      img.bg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
       position: relative;
       box-sizing: border-box;
       header {
@@ -237,7 +243,7 @@ export default {
     display: flex;
     li {
       width: 40px;
-      height: 46px;
+      // height: 46px;
       margin: 0 6px;
       text-align: center;
       font-size: 10px;
