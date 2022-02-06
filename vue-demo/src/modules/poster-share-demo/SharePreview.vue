@@ -4,7 +4,7 @@
       <div class="share-container" id="magic-result-share-poster">
         <header>
           <p class="title">欧气分享</p>
-          <p class="nickname">用户昵称 {{ 'userInfo.nickName' }}</p>
+          <p class="nickname">用户昵称 {{ '小小' }}</p>
         </header>
         <div class="prizes">
           <five :useAnimation="false" :prizes="prizes"></five>
@@ -55,8 +55,6 @@ import Poster from "./poster";
 // 组件多了用异步动态引入，目前只有两个，都比较小暂用静态引入
 import Five from "./Five.vue";
 
-import { watchImgLoad } from "./poster.js";
-
 export default {
   components: {  Five },
   props: {
@@ -89,27 +87,27 @@ export default {
   },
   methods: {
     async toShare(channel) {
-      this.$loading("图片文件生成中...");
+      // this.$loading("图片文件生成中...");
 
       const file = await this.poster.getPosterFile({
         posterDom: document.getElementById("magic-result-share-poster"),
       });
-      const imgurl = await this.poster.uploadPoster({
-        uploadUrl: this.actionUrl,
-        uploadParams: { file },
-      });
+      // const imgurl = await this.poster.uploadPoster({
+      //   uploadUrl: this.actionUrl,
+      //   uploadParams: { file },
+      // });
 
-      this.$loading.close();
+      // this.$loading.close();
 
-      this.$hybrid("shareHDImage", {
-        channel,
-        imgurl,
-      });
-      alert("模拟网图" + imgurl);
+      // this.$hybrid("shareHDImage", {
+      //   channel,
+      //   imgurl,
+      // });
+      // alert("模拟网图" + imgurl);
 
       // 检查生成的二进制文件是否是正常的图片
-      // const srcData = URL.createObjectURL(file)
-      // this.previewImg(srcData)
+      const srcData = URL.createObjectURL(file)
+      this.previewImg(srcData)
     },
     // handleImgAllLoad() {
     // 	this.canShare = true
@@ -147,41 +145,49 @@ export default {
 
   .share-wrapper {
     position: relative;
-    // width: 750px;
-    // height: 1300px;
-    border-radius: 16px;
+    width: 375px;
+    height: 650px;
+    border-radius: 8px;
     transform: scale(0.9);
     overflow: hidden;
     .share-container {
       // background-image: url('./images/bg.jpg');
       // background-size: 100% 100%;
-      .el-fit-bgimg(750px,1300px,url("./images/bg.jpg"));
-      padding: 30px 44px;
+      .el-fit-bgimg(375px,650px,url("./images/bg.jpg"));
       position: relative;
       box-sizing: border-box;
       header {
         position: absolute;
-        left: 44px;
-        top: 30px;
+        left: 22px;
+        
+        top: 15px;
+        
+       
+        >p{
+          margin: 0;
+          text-align: left;
+        }
         .title {
-          font-size: 56px;
-          line-height: 74px;
+          font-size: 28px;
+     
           color: #cd5beb;
-          letter-spacing: 10px;
+          letter-spacing: 5px;
+        
         }
         .nickname {
-          margin-top: 5px;
-          font-size: 26px;
-          line-height: 34px;
+        
+          font-size: 13px;
+         
           color: #ddd0ff;
+          
         }
       }
       .prizes {
-        width: 549px;
-        height: 616px;
+        width: 0.5*549px;
+        height: 0.5*616px;
         position: absolute;
-        top: 316px;
-        left: 101px;
+        top: 0.5*316px;
+        left: 0.5*101px;
         transform: scale(0.75);
         display: flex;
         justify-content: center;
@@ -189,24 +195,27 @@ export default {
       }
       footer {
         position: absolute;
-        left: 44px;
-        right: 44px;
-        bottom: 40px;
+        left: 22px;
+        right: 22px;
+        bottom: 10px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         .text {
-          font-size: 36px;
-          line-height: 40px;
+          font-size: 18px;
+          line-height: 150%;
           color: #ddd0ff;
           font-weight: bold;
-          text-align: left;
+          >p{
+            text-align: left;
+          }
           .highlight {
             color: #62c4e9;
           }
         }
         .qrcode {
-          width: 128px;
-          height: 128px;
+          width: 64px;
+          height: 64px;
           background-color: rgba(221, 216, 221, 0.349);
         }
       }
@@ -227,15 +236,15 @@ export default {
   .btn-group {
     display: flex;
     li {
-      width: 80px;
-      height: 92px;
-      margin: 0 12px;
+      width: 40px;
+      height: 46px;
+      margin: 0 6px;
       text-align: center;
-      font-size: 20px;
-      line-height: 26px;
+      font-size: 10px;
+      line-height: 13px;
       white-space: nowrap;
       color: #ddd0ff;
-      padding-top: 66px;
+      padding-top: 33px;
       position: relative;
       &.disabled {
         opacity: 0.6;
@@ -245,9 +254,9 @@ export default {
         content: "";
         position: absolute;
         top: 0;
-        left: 15px;
-        width: 50px;
-        height: 50px;
+        left: 7.5px;
+        width: 25px;
+        height: 25px;
         background-size: 100% 100%;
       }
       &.wx::before {

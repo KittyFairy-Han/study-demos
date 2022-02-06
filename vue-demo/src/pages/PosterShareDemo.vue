@@ -23,7 +23,7 @@
 			</div>
 		</footer>
 
-		<share-preview v-if="showPreview" :nickName="'userInfo.nickName'"  :prizes="prizes"></share-preview>
+		<share-preview v-if="showPreview"  :prizes="prizes"></share-preview>
 
   </main>
 </template>
@@ -85,11 +85,10 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   .prizes-result {
-    .el-fit-bgimg(750px, 750px, url("@{baseurl}/images/pentacle.png"));
+    .el-fit-bgimg(375px, 375px, url("@{baseurl}/images/pentacle.png"));
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 750px;
     animation: playingMagic 3.5s ease-in 0s 1 both;
     @keyframes playingMagic {
       to {
@@ -105,36 +104,36 @@ export default {
       padding: 0 60px;
       display: flex;
       justify-content: space-around;
-      margin-bottom: 36px;
+      margin-bottom: 18px;
       button {
         color: white;
-        font-size: 34px;
+        font-size: 17px;
         font-weight: 400;
-        padding-bottom: 25px;
+        padding-bottom: 12.5px;
       }
       .share {
-        .el-fit-bgimg(240px, 106px, url("@{baseurl}/images/btn-share.png"));
+        .el-fit-bgimg(120px, 53px, url("@{baseurl}/images/btn-share.png"));
         &.disabled {
           opacity: 0.6;
           pointer-events: none;
         }
       }
       .again {
-        .el-fit-bgimg(240px, 106px, url("@{baseurl}/images/btn-again.png"));
+        .el-fit-bgimg(120px, 53px, url("@{baseurl}/images/btn-again.png"));
       }
     }
     .footer-text {
       text-align: center;
       color: white;
-      width: 551px;
-      height: 64px;
-      line-height: 64px;
+      width: 275px;
+      height: 32px;
+      line-height: 32px;
       border: 1px solid #ffffff;
-      border-radius: 8px;
-      font-size: 26px;
+      border-radius: 4px;
+      font-size: 13px;
       .to-warehouse {
         color: #80eaff;
-        padding: 0 10px;
+        padding: 0 5px;
         // .v-center();
       }
     }
