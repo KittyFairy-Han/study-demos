@@ -2,10 +2,10 @@
   <section class="share-preview">
     <div class="share-wrapper">
       <div class="share-container" id="magic-result-share-poster">
-        <!-- <img class="bg" src="./images/bg.jpg"> -->
+        <img class="bg" src="./images/bg.jpg" />
         <header>
           <p class="title">欧气分享</p>
-          <p class="nickname">用户昵称 {{ '小小' }}</p>
+          <p class="nickname">用户昵称 {{ "小小" }}</p>
         </header>
         <div class="prizes">
           <five :useAnimation="false" :prizes="prizes"></five>
@@ -55,11 +55,12 @@
 import Poster from "./poster";
 // 组件多了用异步动态引入，目前只有两个，都比较小暂用静态引入
 import Five from "./Five.vue";
-import bgImg from "./images/bg.jpg"
+import D2I from "dom-to-image";
+import * as H2I from "html-to-image";
+import * as PP from "PP";
 export default {
-  components: {  Five },
+  components: { Five },
   props: {
-  
     prizes: {
       type: Array,
       default: () => [],
@@ -87,11 +88,16 @@ export default {
     });
   },
   methods: {
-    async toShare(channel) {
+    async toShare() {
+      const dom = document.getElementById("magic-result-share-poster");
+      this.byDom2Image(dom);
+    },
+    async byHtml2Canvas(dom) {
       // this.$loading("图片文件生成中...");
 
       const file = await this.poster.getPosterFile({
-        posterDom: document.getElementById("magic-result-share-poster"),
+        posterDom: dom,
+        proxy: true,
       });
       // const imgurl = await this.poster.uploadPoster({
       //   uploadUrl: this.actionUrl,
@@ -107,12 +113,43 @@ export default {
       // alert("模拟网图" + imgurl);
 
       // 检查生成的二进制文件是否是正常的图片
-      const srcData = URL.createObjectURL(file)
-      this.previewImg(srcData)
+      const srcData = URL.createObjectURL(file);
+      this.previewImg(srcData);
     },
     // handleImgAllLoad() {
     // 	this.canShare = true
     // },
+    async byDom2Image(dom) {
+      const data = await D2I.toBlob(dom);
+      const srcData = URL.createObjectURL(data);
+      this.previewImg(srcData);
+    },
+    async byHtml2Image(dom) {
+      const data = await H2I.toBlob(dom);
+      const srcData = URL.createObjectURL(data);
+      this.previewImg(srcData);
+    },
+    // async byPP() {
+    //   const browser = await PP.launch();
+    //   const page = await browser.newPage();
+    //   //设置可视区域大小,默认的页面大小为800x600分辨率
+    //   await page.setViewport({ width: 1920, height: 1080 });
+    //   await page.goto("https://www.cnblogs.com/morethink/p/6525216.html");
+    //   //对整个页面截图
+    //   await page.screenshot({
+    //     path: path.resolve(`./screenshot/${fileName}.png`), //图片保存路径
+    //     type: "png",
+    //     fullPage: false, //边滚动边截图
+    //   });
+
+    //   //执行cos 或 oss 脚本，把图片上传到cdn环境，此处由于调试，暂时省略
+
+    //   await page.close();
+    //   await browser.close();
+
+    //   return `${fileName}.png`;
+    // },
+
     previewImg(srcData) {
       const img = document.createElement("img");
       img.src = srcData;
@@ -153,7 +190,7 @@ export default {
     overflow: hidden;
     .share-container {
       position: relative;
-      .el-fit-bgimg(375px,650px,url("./images/bg.jpg"));
+      .el-fit-bgimg(375px,650px,"");
       img.bg{
         position: absolute;
         top: 0;
