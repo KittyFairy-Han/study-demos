@@ -57,7 +57,7 @@ import Poster from "./poster";
 import Five from "./Five.vue";
 import D2I from "dom-to-image";
 import * as H2I from "html-to-image";
-import * as PP from "PP";
+
 export default {
   components: { Five },
   props: {
@@ -129,26 +129,7 @@ export default {
       const srcData = URL.createObjectURL(data);
       this.previewImg(srcData);
     },
-    // async byPP() {
-    //   const browser = await PP.launch();
-    //   const page = await browser.newPage();
-    //   //设置可视区域大小,默认的页面大小为800x600分辨率
-    //   await page.setViewport({ width: 1920, height: 1080 });
-    //   await page.goto("https://www.cnblogs.com/morethink/p/6525216.html");
-    //   //对整个页面截图
-    //   await page.screenshot({
-    //     path: path.resolve(`./screenshot/${fileName}.png`), //图片保存路径
-    //     type: "png",
-    //     fullPage: false, //边滚动边截图
-    //   });
 
-    //   //执行cos 或 oss 脚本，把图片上传到cdn环境，此处由于调试，暂时省略
-
-    //   await page.close();
-    //   await browser.close();
-
-    //   return `${fileName}.png`;
-    // },
 
     previewImg(srcData) {
       const img = document.createElement("img");
