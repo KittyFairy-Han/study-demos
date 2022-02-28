@@ -25,34 +25,24 @@
       <li
         class="wx"
         :class="{ disabled: !canShare }"
-        @click="toShare('wechat')"
-      >
-        <!-- <span>微信</span> -->
-      </li>
+        @click="alert('请点击下载')"
+      ></li>
       <li
         class="pyq"
         :class="{ disabled: !canShare }"
-        @click="toShare('wechat_line')"
-      >
-        <!-- <span>朋友圈</span> -->
-      </li>
-      <li class="download" :class="{ disabled: !canShare }" @click="toShare">
-        <!-- <span>下载图片</span> -->
-      </li>
+        @click="alert('请点击下载')"
+      ></li>
+      <li
+        class="download"
+        :class="{ disabled: !canShare }"
+        @click="toShare"
+      ></li>
     </ul>
-    <!-- <form
-			action="http://hn216.api.yesapi.cn/?s=App.CDN.UploadImg&app_key=86B2B0991EEDAB4AE2B7C4306374BA70"
-			method="post"
-			enctype="multipart/form-data"
-		>
-			<input type="file" name="file" />
-			<button type="submit" class="btn btn-success">upload</button>
-		</form> -->
   </section>
 </template>
 
 <script>
-import Poster from "./poster";
+import { getQrcode, watchImgLoad, getPosterFile } from "./poster";
 // 组件多了用异步动态引入，目前只有两个，都比较小暂用静态引入
 import Five from "./Five.vue";
 import D2I from "dom-to-image";
@@ -72,53 +62,36 @@ export default {
       shareImg: "",
       loading: false,
       actionUrl: "http://47.96.134.52/upl/getFile.php",
-      canShare: true,
+      canShare: false,
     };
   },
   computed: {},
   async created() {},
   async mounted() {
-    this.poster = new Poster();
     const qrcodeDom = document.getElementById("magic-result-qrcode");
     const shareUrl = `${window.location.origin}/#/magicCastle`;
-    this.poster.getQrcode({
+    getQrcode({
       qrcodeDom,
       shareUrl,
       style: { size: 114, black: "#381e82" },
     });
+    this.canShare = await watchImgLoad(this.prizes.map((item) => item.imgUrl));
   },
   methods: {
     async toShare() {
       const dom = document.getElementById("magic-result-share-poster");
-      this.byDom2Image(dom);
+      this.byHtml2Canvas(dom);
     },
     async byHtml2Canvas(dom) {
-      // this.$loading("图片文件生成中...");
-
-      const file = await this.poster.getPosterFile({
+      const file = await getPosterFile({
         posterDom: dom,
         proxy: true,
       });
-      // const imgurl = await this.poster.uploadPoster({
-      //   uploadUrl: this.actionUrl,
-      //   uploadParams: { file },
-      // });
 
-      // this.$loading.close();
-
-      // this.$hybrid("shareHDImage", {
-      //   channel,
-      //   imgurl,
-      // });
-      // alert("模拟网图" + imgurl);
-
-      // 检查生成的二进制文件是否是正常的图片
       const srcData = URL.createObjectURL(file);
       this.previewImg(srcData);
     },
-    // handleImgAllLoad() {
-    // 	this.canShare = true
-    // },
+
     async byDom2Image(dom) {
       const data = await D2I.toBlob(dom);
       const srcData = URL.createObjectURL(data);
@@ -129,7 +102,6 @@ export default {
       const srcData = URL.createObjectURL(data);
       this.previewImg(srcData);
     },
-
 
     previewImg(srcData) {
       const img = document.createElement("img");

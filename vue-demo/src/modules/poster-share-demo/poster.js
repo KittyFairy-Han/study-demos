@@ -5,11 +5,16 @@ function isObj(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
 
-async function createPoster(posterDom, drawCanvasConfiguration, canvasToDataConfiguration, useFile) {
+async function createPoster(
+  posterDom,
+  drawCanvasConfiguration,
+  canvasToDataConfiguration,
+  useFile
+) {
   if (!isObj(drawCanvasConfiguration)) {
     drawCanvasConfiguration = {
       useCORS: true,
-      allowTaint: true   
+      allowTaint: true,
     };
   }
   if (!isObj(canvasToDataConfiguration)) {
@@ -41,44 +46,6 @@ async function createPoster(posterDom, drawCanvasConfiguration, canvasToDataConf
   }
 }
 
-async function uploadByXml(url, formData) {
-  return new Promise((resolve) => {
-    //创建xhr对象
-    let xhr;
-    if (window.XMLHttpRequest) {
-      xhr = new XMLHttpRequest();
-    } else {
-      xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    //异步接受响应
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200 || xhr.status === 304) {
-          //callback为回调函数，如果不设置则无回调
-          resolve(xhr.responseText);
-        }
-      }
-    };
-    xhr.open("post", url, true);
-    xhr.setRequestHeader("Referer", "47.96.134.52"); // 添加 HTTP 头
-
-    xhr.send(formData);
-  });
-}
-
-async function uploadByFetch(url, formData) {
-  const res = await fetch(url, {
-    // headers: {
-    //   'Content-Type': 'multipart/form-data',
-    // },
-    mode: "no-cors",
-    method: "POST",
-    body: formData,
-  });
-
-  return res;
-}
-
 export default class PosterShare {
   constructor(useCache = false) {
     /**
@@ -98,60 +65,29 @@ export default class PosterShare {
 
   /**
    *
-   * @param qrcodeDom {HTMLElement} qrcodeDom.src = 生成的二维码图片
-   * @param shareUrl {String} 扫描海报中的二维码后跳转到的目标链接
-   * @param style {Object} 透传给 createQrCodeImg，用来配置二维码样式。所有属性：size、black、white
-   * @returns {baseb4}
-   */
-  getQrcode({ qrcodeDom, shareUrl = window.location.href, style }) {
-    const qrcode = createQrCodeImg(shareUrl, style);
-    let result;
-    if (qrcodeDom) {
-      qrcodeDom.src = qrcode;
-      result = qrcodeDom;
-    } else {
-      result = qrcode;
-    }
-    this.qrcodeDom = qrcodeDom;
-    this.qrcode = qrcode;
-    this.url = shareUrl;
-    return result;
-  }
-
-  /**
-   *
    * @param posterDom {HTMLElement} 生成canvas的dom源
    * @param drawCanvasConfiguration {Object} 透传给 html2canvas，所有属性见 https://allenchinese.github.io/html2canvas-docs-zh-cn/docs/html2canvas-configuration.html
    * @param canvasToDataConfiguration {Object} 透传给 canvasEle.toDataURL, 所有属性见 https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL
    * @returns {baseb4} 图片的base64编码字符串
    */
-  async getPosterB64({ posterDom = document.body, drawCanvasConfiguration, canvasToDataConfiguration }) {
+  async getPosterB64({
+    posterDom = document.body,
+    drawCanvasConfiguration,
+    canvasToDataConfiguration,
+  }) {
     // drawCanvasConfiguration, canvasToDataConfiguration 如果不是形如 {} 都会失效，使用默认的配置
     if (this.useCache && this.posterB64) {
       return this.posterB64;
     }
-    const posterB64 = await createPoster(posterDom, drawCanvasConfiguration, canvasToDataConfiguration, false);
+    const posterB64 = await createPoster(
+      posterDom,
+      drawCanvasConfiguration,
+      canvasToDataConfiguration,
+      false
+    );
     this.posterDom = posterDom;
     this.posterB64 = posterB64;
     return posterB64;
-  }
-
-  /**
-   *
-   * @param posterDom {HTMLElement} 生成canvas的dom源
-   * @param drawCanvasConfiguration {Object} 透传给 html2canvas，所有属性见 https://allenchinese.github.io/html2canvas-docs-zh-cn/docs/html2canvas-configuration.html
-   * @param canvasToDataConfiguration {Object} 透传给 canvasEle.toBlob, 所有属性见 https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob
-   * @returns {Blob} 图片的二级制数据
-   */
-  async getPosterFile({ posterDom = document.body, drawCanvasConfiguration, canvasToDataConfiguration }) {
-    // drawCanvasConfiguration, canvasToDataConfiguration 如果不是形如 {} 都会失效，使用默认的配置
-    if (this.useCache && this.posterFile) {
-      return this.posterFile;
-    }
-    const posterFile = await createPoster(posterDom, drawCanvasConfiguration, canvasToDataConfiguration, true);
-    this.posterDom = posterDom;
-    this.posterFile = posterFile;
-    return posterFile;
   }
 
   /**
@@ -165,14 +101,14 @@ export default class PosterShare {
       return this.posterUrl;
     }
     try {
-      const formData = new FormData();
+      /* const formData = new FormData();
       Object.keys(uploadParams).forEach((item) => {
         formData.append(item, uploadParams[item]);
       });
 
       const res = await uploadByFetch(uploadUrl, formData);
       const data = await res.json();
-      console.log(res, data);
+      console.log(res, data); */
 
       const posterUrl = await new Promise((resolve) => {
         setTimeout(() => {
@@ -194,7 +130,33 @@ export default class PosterShare {
   }
 }
 
-export function watchImgLoad(list) {
+/**
+ *
+ * @param posterDom {HTMLElement} 生成canvas的dom源
+ * @param drawCanvasConfiguration {Object} 透传给 html2canvas，所有属性见 https://allenchinese.github.io/html2canvas-docs-zh-cn/docs/html2canvas-configuration.html
+ * @param canvasToDataConfiguration {Object} 透传给 canvasEle.toBlob, 所有属性见 https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob
+ * @returns {Blob} 图片的二级制数据
+ */
+export async function getPosterFile({
+  posterDom = document.body,
+  drawCanvasConfiguration,
+  canvasToDataConfiguration,
+}) {
+  const posterFile = await createPoster(
+    posterDom,
+    drawCanvasConfiguration,
+    canvasToDataConfiguration,
+    true
+  );
+
+  return posterFile;
+}
+/**
+ * 检查资源加载
+ * @param list {Array} 图片资源列表
+ * @returns {Boolean}
+ */
+export async function watchImgLoad(list) {
   const urls = Array.from(new Set(list));
   const imgsLoadState = new Map(urls.map((item) => [item, false]));
   return new Promise((resolve) => {
@@ -207,8 +169,30 @@ export function watchImgLoad(list) {
         const isAllLoad = states.every((item) => item);
         console.log("load", e.target.src);
         isAllLoad && resolve(true);
-        // isAllLoad && resolve(true)
       };
     });
   });
+}
+
+/**
+ * 获取二维码
+ * @param qrcodeDom {HTMLElement} qrcodeDom.src = 生成的二维码图片
+ * @param shareUrl {String} 扫描海报中的二维码后跳转到的目标链接
+ * @param style {Object} 透传给 createQrCodeImg，用来配置二维码样式。所有属性：size、black、white
+ * @returns {baseb4}
+ */
+export function getQrcode({
+  qrcodeDom,
+  shareUrl = window.location.href,
+  style,
+}) {
+  const qrcode = createQrCodeImg(shareUrl, style);
+  let result;
+  if (qrcodeDom) {
+    qrcodeDom.src = qrcode;
+    result = qrcodeDom;
+  } else {
+    result = qrcode;
+  }
+  return result;
 }
