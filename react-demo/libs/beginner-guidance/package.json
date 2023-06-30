@@ -1,0 +1,33 @@
+{
+  "name": "beginner-guidance",
+  "version": "0.0.1-alpha.1",
+  "description": "新手引导组件",
+  "author": "鱼小柔",
+  "keywords": [
+    "react",
+    "新手引导"
+  ],
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "files": [
+    "es"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.json --outDir es/ --module ES2015",
+    "bump": "npm version",
+    "prepublishOnly": "yarn build"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KittyFairy-Han/study-demos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KittyFairy-Han/study-demos/issues"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.12",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

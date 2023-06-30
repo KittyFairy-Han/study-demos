@@ -1,0 +1,29 @@
+.beginner-guidance-mask{
+    position: fixed;
+    width:100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10vw;
+    box-sizing: border-box;
+}
+.beginner-guidance-steps-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.beginner-guidance-step-item{
+    width: 100%;
+    height: auto;
+}
+.beginner-guidance-tip{
+    color: white;
+    font-size: 3.2vw;
+    width: 100%;
+    text-align: center;
+    margin-top: 1.6vw;
+}
