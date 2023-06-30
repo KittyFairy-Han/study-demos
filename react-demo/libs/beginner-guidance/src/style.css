@@ -10,6 +10,8 @@
     flex-direction: column;
     padding: 10vw;
     box-sizing: border-box;
+    top: 0;
+    left: 0;
 }
 .beginner-guidance-steps-container{
     position: relative;
@@ -19,6 +21,11 @@
 .beginner-guidance-step-item{
     width: 100%;
     height: auto;
+}
+.beginner-guidance-step-item:not(:first-child){
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .beginner-guidance-tip{
     color: white;
